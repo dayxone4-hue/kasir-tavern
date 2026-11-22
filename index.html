@@ -299,13 +299,14 @@ document.addEventListener('change',e=>{const f=e.target.dataset.f;if(f){S[f]=e.t
 (async()=>{loginView();const f=await window.fbp;if(f.err)return msg(f.err);S.db=f.db;window.FB=f;
  window.claude={use:async n=>n=='downloads'?{save:async({filename,data})=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data]));a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}}:null};
  f.onAuth(async u=>{if(u&&!S.me){const s=await f.staff(u.uid);if(s)enter({username:s.username,uid:u.uid,role:s.role})}})})();
-if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+if('serviceWorker' in navigator){const had=!!navigator.serviceWorker.controller;let rl=0;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had&&!rl){rl=1;location.reload()}});addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}))}
 </script><script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,onAuthStateChanged,deleteUser} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import {initializeFirestore,persistentLocalCache,persistentMultipleTabManager,collection,doc,getDoc,setDoc,deleteDoc,onSnapshot,writeBatch} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 try{
- const {firebaseConfig}=await import("./firebase-config.js");
+ let firebaseConfig;try{({firebaseConfig}=await import("./firebase-config.js?v="+Date.now()))}catch(e){throw new Error("firebase-config.js tidak bisa dibaca. Pastikan berkas ada di folder utama repositori.")}
+ if(!firebaseConfig)throw new Error("firebaseConfig tidak ditemukan. Pastikan firebase-config.js diawali: export const firebaseConfig = {");
  if(!firebaseConfig.apiKey||firebaseConfig.apiKey.startsWith("ISI"))throw new Error("Isi dulu firebase-config.js (lihat README).");
  const app=initializeApp(firebaseConfig),auth=getAuth(app),fs=initializeFirestore(app,{ignoreUndefinedProperties:true,localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})}),em=u=>u+"@tavern.app";
  window._fbr({
