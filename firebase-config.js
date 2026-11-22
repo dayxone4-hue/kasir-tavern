@@ -1,11 +1,8 @@
-// Ganti nilai di bawah dengan konfigurasi dari Firebase Console
-// (Project settings > Your apps > Web app > SDK setup and configuration).
-// Nilai ini BUKAN rahasia; keamanan data diatur oleh firestore.rules.
 export const firebaseConfig = {
-  apiKey: "ISI_API_KEY",
-  authDomain: "ISI_PROJECT_ID.firebaseapp.com",
-  projectId: "ISI_PROJECT_ID",
-  storageBucket: "ISI_PROJECT_ID.appspot.com",
-  messagingSenderId: "ISI",
-  appId: "ISI"
+  apiKey: "AIzaSyCtKia7jeHVBGKnMzAJIOxFD47UWSJa5Ww",
+  authDomain: "kasir-tavern.firebaseapp.com",
+  projectId: "kasir-tavern",
+  storageBucket: "kasir-tavern.firebasestorage.app",
+  messagingSenderId: "165526131917",
+  appId: "1:165526131917:web:65c4786c48728a3e0a0584"
 };
